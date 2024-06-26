@@ -9,7 +9,7 @@ import com.recipemanagement.models.User;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
-	public Optional<User> findById(String Id);
+	public Optional<User> findById(String id);
 
 	public Optional<User> findByEmail(String email);
 

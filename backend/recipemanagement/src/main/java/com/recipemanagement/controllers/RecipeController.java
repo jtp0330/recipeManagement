@@ -55,12 +55,12 @@ public class RecipeController {
 
 	@CrossOrigin(origins = "http://localhost:5173")
 	@GetMapping("/recipes/{id}")
-	public Recipe recipe(@PathVariable String id) {
+	public Recipe recipe(@PathVariable("id") String id) {
 		return recipeService.findRecipeById(id);
 	}
 
 	@CrossOrigin(origins = "http://localhost:5173")
-	@PutMapping("/recipes/:id/edit")
+	@PutMapping("/recipes/{id}/edit")
 	public ResponseEntity<?> editRecipe(@Valid @RequestBody Recipe recipe,
 			BindingResult result,
 			Model model,
@@ -72,8 +72,8 @@ public class RecipeController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:5173")
-	@DeleteMapping("/recipes/:id/delete")
-	public ResponseEntity<?> deleteRecipe(@PathVariable String id) {
+	@DeleteMapping("/recipes/{id}/delete")
+	public ResponseEntity<?> deleteRecipe(@PathVariable("id") String id) {
 		recipeService.deleteRecipe(id);
 		return ResponseEntity.ok("Recipe has been deleted");
 	}

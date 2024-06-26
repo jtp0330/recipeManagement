@@ -22,7 +22,6 @@ public class LoginUser {
 	}
 
 	public LoginUser(String email, String password, Authentication authorities) {
-		super();
 		this.email = email;
 		this.password = password;
 		this.authorities = authorities;

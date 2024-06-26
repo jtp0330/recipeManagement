@@ -11,7 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-//handles protected routes 
+//handles protected routes
 //unauthorized access
 @Component
 public class JwtEntryPoint implements AuthenticationEntryPoint {
