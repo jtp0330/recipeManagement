@@ -60,7 +60,10 @@ public class WebSecurityConfig {
 				.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(
-						auth -> auth.requestMatchers("/login", "/register", "/recipes", "/recipes/add", "/recipes/**")
+						auth -> auth.requestMatchers(
+								"/login",
+								"/register",
+								"/recipes/**")
 								.permitAll()
 								.anyRequest())
 				.formLogin(form -> form.loginPage("/")
