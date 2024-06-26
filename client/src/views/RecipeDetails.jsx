@@ -1,16 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect} from 'react'
+import {useParams} from 'react-router-dom'
 import axios from 'axios'
 
 const RecipeDetails = () => {
 
     const [recipe, setRecipe] = useState({})
-
+    const {id} = useParams()
     useEffect(() => {
-        axios.get(`http://localhost:8080/recipes/:id`)
-            .then(res => { setRecipe(res.data) }
+        axios.get(`http://localhost:8080/recipes/${id}`)
+            .then(res => { 
+                console.log(res)
+                setRecipe(res.data) }
             )
             .catch(err => err);
-    }, [])
+    }, [id])
 
     return (
         <div className="recipe">

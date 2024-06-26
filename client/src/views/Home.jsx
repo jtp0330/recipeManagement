@@ -26,7 +26,7 @@ const Home = () => {
             <ul>
                 {recipes.map((recipe, index) => (
                     //pass id of specific recipe into onclick api request
-                    <li key={index} onClick={() => {navigate("/recipes/{recipe.id}")}}>
+                    <li key={index} onClick={() => {navigate("/recipes/{recipe._id}")}}>
                         <Recipe image="" recipeName={recipe.recipeName} />
                     </li>
                 ))}
