@@ -10,6 +10,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -18,41 +22,46 @@ import jakarta.validation.constraints.Size;
 public class User {
 	@Id
 	@Indexed(unique = true)
+	@JsonProperty("_id")
+	@JsonSerialize(using = ToStringSerializer.class)
 	private ObjectId id;
 	@Field("firstName")
+	@JsonProperty("firstName")
 	private String firstName;
 	@Field("lastName")
+	@JsonProperty("lastName")
 	private String lastName;
 	@NotEmpty(message = "Email is required!")
 	@Email(message = "Please enter a valid email!")
 	@Field("email")
+	@JsonProperty("email")
 	private String email;
 	@NotEmpty(message = "Password is required!")
 	@Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
 	@Field("password")
+	@JsonProperty("password")
 	private String password;
 	@Transient
 	@NotEmpty(message = "Confirm Password must be between 8 and 128 characters")
+	@JsonProperty("confirmPassword")
 	private String confirmPassword;
 
 	// One To Many Recipes
-	@DocumentReference
-	@Field("recipes")
-	List<Recipe> recipes;
+	// @DocumentReference
+	// @Field("recipes")
+	// List<Recipe> recipes;
 
 	public User() {
 	}
 
-	public User(ObjectId id, String firstName, String lastName, String email, String password, String confirmPassword,
-			List<Recipe> recipes) {
-		super();
+	public User(ObjectId id, String firstName, String lastName, String email, String password, String confirmPassword) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
-		this.recipes = recipes;
+
 	}
 
 	public ObjectId getId() {
@@ -101,14 +110,6 @@ public class User {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
-	}
-
-	public List<Recipe> getRecipeIds() {
-		return recipes;
-	}
-
-	public void setRecipeIds(List<Recipe> recipes) {
-		this.recipes = recipes;
 	}
 
 }

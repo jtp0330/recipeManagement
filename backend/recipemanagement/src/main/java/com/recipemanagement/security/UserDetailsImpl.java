@@ -7,7 +7,6 @@ import org.bson.types.ObjectId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recipemanagement.models.Recipe;
 import com.recipemanagement.models.User;
@@ -27,14 +26,12 @@ public class UserDetailsImpl implements UserDetails {
 	private String password;
 	private List<Recipe> recipes;
 
-	public UserDetailsImpl(ObjectId id, String firstName, String lastName, String email, String password,
-			List<Recipe> recipes) {
+	public UserDetailsImpl(ObjectId id, String firstName, String lastName, String email, String password) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.recipes = recipes;
 	}
 
 	public static UserDetailsImpl build(User user) {
@@ -43,8 +40,7 @@ public class UserDetailsImpl implements UserDetails {
 				user.getFirstName(),
 				user.getLastName(),
 				user.getEmail(),
-				user.getPassword(),
-				user.getRecipeIds());
+				user.getPassword());
 	}
 
 	public ObjectId getId() {
@@ -78,7 +74,6 @@ public class UserDetailsImpl implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 
 	public List<Recipe> getRecipes() {
 		return recipes;
