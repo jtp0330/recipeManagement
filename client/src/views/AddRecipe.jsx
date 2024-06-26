@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const AddRecipe = () => {
 
+    const navigate = useNavigate()
     const [recipeName, setRecipeName] = useState("");
     const [description, setDescription] = useState("");
     const [ingredients, setIngredients] = useState("");
@@ -24,7 +25,7 @@ const AddRecipe = () => {
                 cookingSteps
             })
             .then(resp => {
-                console.log(res)
+                console.log(resp)
                 console.log("data request sent!")
                 navigate("/recipes")
             })

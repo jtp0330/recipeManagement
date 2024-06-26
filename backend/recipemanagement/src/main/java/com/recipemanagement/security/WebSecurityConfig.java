@@ -23,7 +23,7 @@ import com.recipemanagement.services.UserDetailsServiceImpl;
 // @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-	// acts as medium to extract user information and pass to the repository, then
+	// acts as medium to extract user information and pass to the repository,
 	// database
 	@Autowired
 	UserDetailsServiceImpl userService;
@@ -61,18 +61,19 @@ public class WebSecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/login").permitAll()
 						.requestMatchers("/register").permitAll()
-						.requestMatchers("/recipes").permitAll()
+						.requestMatchers("/recipes/**").permitAll()
 						.anyRequest().authenticated())
-				// .formLogin(form -> form.loginPage("/")
-				// .usernameParameter("email")
-				// .passwordParameter("password")
-				// .defaultSuccessUrl("/recipes")
-				// .permitAll())
+				.formLogin(form -> form.loginPage("/")
+						// .usernameParameter("email")
+						// .passwordParameter("password")
+						.defaultSuccessUrl("/recipes")
+						.permitAll())
 				.logout(logout -> logout.permitAll());
 
 		http.authenticationProvider(authenticationProvider());
 
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(authenticationJwtTokenFilter(),
+				UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 }

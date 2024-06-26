@@ -1,11 +1,12 @@
 import Recipe from '../components/Recipe.jsx'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const Home = () => {
 
     const [recipes, setRecipes] = useState([])
-
+    const navigate = useNavigate()
     useEffect(() => {
         axios.get("http://localhost:8080/recipes")
             .then(res => {
@@ -25,7 +26,7 @@ const Home = () => {
             <ul>
                 {recipes.map((recipe, index) => (
                     //pass id of specific recipe into onclick api request
-                    <li key={index} >
+                    <li key={index} onClick={() => {navigate("/recipes/" + {recipe.id})}}>
                         <Recipe image="" recipeName={recipe.recipeName} />
                     </li>
                 ))}

@@ -24,7 +24,7 @@ public class User {
 	@Indexed(unique = true)
 	@JsonProperty("_id")
 	@JsonSerialize(using = ToStringSerializer.class)
-	private ObjectId id;
+	private String id;
 	@Field("firstName")
 	@JsonProperty("firstName")
 	private String firstName;
@@ -54,7 +54,7 @@ public class User {
 	public User() {
 	}
 
-	public User(ObjectId id, String firstName, String lastName, String email, String password, String confirmPassword) {
+	public User(String id, String firstName, String lastName, String email, String password, String confirmPassword) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -64,11 +64,11 @@ public class User {
 
 	}
 
-	public ObjectId getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

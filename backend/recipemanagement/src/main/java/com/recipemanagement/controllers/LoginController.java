@@ -51,57 +51,62 @@ public class LoginController {
 	@CrossOrigin(origins = "http://localhost:5173")
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginUser user, BindingResult result) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+		// Authentication authentication = authenticationManager.authenticate(
+		// new UsernamePasswordAuthenticationToken(user.getEmail(),
+		// user.getPassword()));
 
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		// SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		// gets Pojo UserDetailsImpl after authenticating with database
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		// // gets Pojo UserDetailsImpl after authenticating with database
+		// UserDetailsImpl userDetails = (UserDetailsImpl)
+		// authentication.getPrincipal();
 
-		ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+		// ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
 		// return response details back to frontend, with jwt in cookie and
 		// authenticated user details
+		User userDetails = userService.findByUserEmail(user.getEmail());
 		userService.login(user, result);
 
-		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+		return ResponseEntity.ok()
+				// .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
 				.body(new UserDetailsResponse(userDetails.getId(),
 						userDetails.getFirstName(),
 						userDetails.getLastName(),
-						userDetails.getEmail(),
-						userDetails.getRecipes()));
+						userDetails.getEmail()));
 
 	}
 
 	// must parse data from request json to User object
 	@CrossOrigin(origins = "http://localhost:5173")
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@Valid @RequestBody User user,
+	public ResponseEntity<?> register(@Valid @RequestBody User newUser,
 			BindingResult result,
 			Model model,
 			HttpSession session) {
 
-		User newUser = new User();
-		System.out.println(user);
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(newUser.getEmail(), newUser.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		// User newUser = new User();
+		// System.out.println(user);
+		// Authentication authentication = authenticationManager.authenticate(
+		// new UsernamePasswordAuthenticationToken(newUser.getEmail(),
+		// newUser.getPassword()));
+		// SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		// gets Pojo UserDetailsImpl after authenticating with database
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		// generate new access token
-		ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+		// // gets Pojo UserDetailsImpl after authenticating with database
+		// UserDetailsImpl userDetails = (UserDetailsImpl)
+		// authentication.getPrincipal();
+		// // generate new access token
+		// ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
 		// register user
 		userService.register(newUser, result);
 
-		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-				.body(new UserDetailsResponse(userDetails.getId(),
-						userDetails.getFirstName(),
-						userDetails.getLastName(),
-						userDetails.getEmail(),
-						userDetails.getRecipes()));
+		return ResponseEntity.ok()
+				// .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+				.body(new UserDetailsResponse(newUser.getId(),
+						newUser.getFirstName(),
+						newUser.getLastName(),
+						newUser.getEmail()));
 	}
 
 }

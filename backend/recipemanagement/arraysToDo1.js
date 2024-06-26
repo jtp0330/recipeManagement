@@ -10,11 +10,11 @@ const pushToFront = (arr, value) =>{
 console.log(pushToFront([5,7,2,3], 8))
 
 const popFront = (arr) => {
-    value=arr[0]
-    //TODO
-    arr=[...arr]
-    console.log(`Popped array: ${arr}`)
+
+    let [value, ...newarr] = arr
+    console.log(`Popped array: ${newarr}`)
+    arr = newarr
     return value
 }
 
-console.log(popFront([5,7,2,3], 8))
+console.log(popFront([5,7,2,3]))

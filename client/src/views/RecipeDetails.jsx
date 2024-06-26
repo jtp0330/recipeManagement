@@ -7,7 +7,7 @@ const RecipeDetails = () => {
 
     useEffect(() => {
         axios.get(`http://localhost:8080/recipes/:id`)
-            .then(res => { setRecipe(data) }
+            .then(res => { setRecipe(res.data) }
             )
             .catch(err => err);
     }, [])

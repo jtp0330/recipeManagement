@@ -8,28 +8,37 @@ import org.springframework.data.mongodb.core.mapping.Field;
 //for passing details back to frontend
 public class UserDetailsResponse {
 
-    private ObjectId id;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
-    private List<Recipe> recipes;
+    // private List<Recipe> recipes;
 
     public UserDetailsResponse() {
     }
 
-    public UserDetailsResponse(ObjectId id, String firstName, String lastName, String email, List<Recipe> recipes) {
+    // public UserDetailsResponse(ObjectId id, String firstName, String lastName,
+    // String email, List<Recipe> recipes) {
+    // this.id = id;
+    // this.firstName = firstName;
+    // this.lastName = lastName;
+    // this.email = email;
+    // this.recipes = recipes;
+    // }
+
+    public UserDetailsResponse(String id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.recipes = recipes;
+        // this.recipes = recipes;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -57,11 +66,11 @@ public class UserDetailsResponse {
         this.email = email;
     }
 
-    public List<Recipe> getRecipeIds() {
-        return recipes;
-    }
+    // public List<Recipe> getRecipeIds() {
+    // return recipes;
+    // }
 
-    public void setRecipeIds(List<Recipe> recipes) {
-        this.recipes = recipes;
-    }
+    // public void setRecipeIds(List<Recipe> recipes) {
+    // this.recipes = recipes;
+    // }
 }

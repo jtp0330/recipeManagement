@@ -5,9 +5,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.recipemanagement.models.Recipe;
-import com.recipemanagement.models.User;
 import com.recipemanagement.services.RecipeService;
 import com.recipemanagement.services.UserService;
 
@@ -51,14 +48,14 @@ public class RecipeController {
 			Model model,
 			HttpSession session) {
 
-		// register user
+		// add recipe
 		recipeService.addRecipe(recipe);
 		return ResponseEntity.ok("New Recipe has been created");
 	}
 
 	@CrossOrigin(origins = "http://localhost:5173")
-	@GetMapping("/recipes/:id")
-	public Recipe recipe(@PathVariable ObjectId id) {
+	@GetMapping("/recipes/{id}")
+	public Recipe recipe(@PathVariable String id) {
 		return recipeService.findRecipeById(id);
 	}
 
@@ -75,8 +72,8 @@ public class RecipeController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:5173")
-	@DeleteMapping("/recipes/:id")
-	public ResponseEntity<?> deleteRecipe(@PathVariable ObjectId id) {
+	@DeleteMapping("/recipes/:id/delete")
+	public ResponseEntity<?> deleteRecipe(@PathVariable String id) {
 		recipeService.deleteRecipe(id);
 		return ResponseEntity.ok("Recipe has been deleted");
 	}

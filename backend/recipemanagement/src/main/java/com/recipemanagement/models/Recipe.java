@@ -1,18 +1,22 @@
 package com.recipemanagement.models;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+
+import com.mongodb.lang.NonNull;
+
+import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "recipes")
 public class Recipe {
 
 	@Id
 	@Indexed(unique = true)
-	private ObjectId id;
+	private String id;
 	@Field("recipeName")
 	private String recipeName;
 	@Field("description")
@@ -31,7 +35,7 @@ public class Recipe {
 	public Recipe() {
 	}
 
-	public Recipe(ObjectId id, String recipeName, String description, String ingredients, String cookingSteps
+	public Recipe(String id, String recipeName, String description, String ingredients, String cookingSteps
 	// byte[] imageData) {
 	) {
 		this.id = id;
@@ -41,11 +45,11 @@ public class Recipe {
 		// this.imageData = imageData;
 	}
 
-	public ObjectId getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

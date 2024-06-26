@@ -31,11 +31,10 @@ const Register = () => {
                 },
                 body: JSON.stringify(newUser),
             })
-            .then(resp => resp.json())
             .then(
-                data => {
-                    console.log("Register Request Recevied...", data)
-                    if (data.status != 200)
+                resp => {
+                    console.log("Register Request Recevied...", resp)
+                    if (resp.status != 200)
                         console.log("Failed Validations!")
                     else
                         navigate("/recipes")

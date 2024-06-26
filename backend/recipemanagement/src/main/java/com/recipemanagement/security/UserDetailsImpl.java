@@ -18,7 +18,7 @@ public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	// fields required after authentication
-	private ObjectId id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -26,7 +26,7 @@ public class UserDetailsImpl implements UserDetails {
 	private String password;
 	private List<Recipe> recipes;
 
-	public UserDetailsImpl(ObjectId id, String firstName, String lastName, String email, String password) {
+	public UserDetailsImpl(String id, String firstName, String lastName, String email, String password) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -43,11 +43,11 @@ public class UserDetailsImpl implements UserDetails {
 				user.getPassword());
 	}
 
-	public ObjectId getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

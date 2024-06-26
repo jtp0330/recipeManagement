@@ -20,7 +20,7 @@ public class RecipeService {
 		return recipeRepo.findAll();
 	}
 
-	public Recipe findRecipeById(ObjectId id) {
+	public Recipe findRecipeById(String id) {
 		Optional<Recipe> recipe = recipeRepo.findById(id);
 		return recipe.get();
 	}
@@ -34,7 +34,7 @@ public class RecipeService {
 		return recipeRepo.save(recipe);
 	}
 
-	public void deleteRecipe(ObjectId id) {
+	public void deleteRecipe(String id) {
 		recipeRepo.deleteById(id);
 	}
 }
