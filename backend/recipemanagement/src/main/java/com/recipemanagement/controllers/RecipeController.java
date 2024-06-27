@@ -61,14 +61,15 @@ public class RecipeController {
 
 	@CrossOrigin(origins = "http://localhost:5173")
 	@PutMapping("/recipes/{id}/edit")
-	public ResponseEntity<?> editRecipe(@Valid @RequestBody Recipe recipe,
+	public ResponseEntity<?> editRecipe(@Valid @PathVariable("id") String id, @RequestBody Recipe recipe,
 			BindingResult result,
 			Model model,
 			HttpSession session) {
 
-		// register user
-		recipeService.updateRecipe(recipe);
-		return ResponseEntity.ok("New Recipe has been created");
+		// edit current recipe
+		recipe.setId(id);
+		Recipe r = recipeService.updateRecipe(recipe);
+		return ResponseEntity.ok("Recipe has ben updated");
 	}
 
 	@CrossOrigin(origins = "http://localhost:5173")
