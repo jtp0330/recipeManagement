@@ -1,19 +1,25 @@
+import {useState, useEffect} from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import axios from 'axios'
+
+
 const UpdateRecipe = () => {
+    const navigate = useNavigate()
+    const {id} = useParams()
     const [recipeName, setRecipeName] = useState("");
     const [description, setDescription] = useState("");
     const [ingredients, setIngredients] = useState("");
     const [cookingSteps, setCookingSteps] = useState("");
 
     useEffect(() => {
-        axios.get("http://localhost:8080/recipes/:id")
-            .then(res => {
-                setRecipeName(res.data.recipeName);
-                setDescription(res.data.description);
-                setIngredients(res.data.ingredients);
-                setCookingSteps(res.data.cookingSteps);
-                console.log("config updated");
-
-            }
+        axios.get(`http://localhost:8080/recipes/${id}`)
+            .then(res => { 
+                console.log(res)
+                setRecipeName(res.data.recipeName),
+                setDescription(res.data.description),
+                setIngredients(res.data.ingredients),
+                setCookingSteps(res.data.cookingSteps)
+             }
             )
             .catch(err => err);
     }, [id])
@@ -21,12 +27,16 @@ const UpdateRecipe = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:8080/recipes${id}`,
+        axios.put(`http://localhost:8080/recipes/${id}`,
             {
                 recipeName,
                 description,
                 ingredients,
                 cookingSteps
+            })
+            .then(res => {
+                console.log(res.data)
+                navigate("/recipes")
             })
     }
 
@@ -34,18 +44,18 @@ const UpdateRecipe = () => {
         <div className="update-recipe">
             <form onSubmit={handleUpdate}>
                 <label>
-                    <input type="text" onChange={(e) => (setRecipeName(e.target.value))} placeholder="Recipe Name"></input>
+                    <input type="text" onChange={(e) => (setRecipeName(e.target.value))} value={recipeName}></input>
                 </label>
                 <label>
-                    <input type="text" onChange={(e) => (setDescription(e.target.value))} placeholder="Description"></input>
+                    <input type="text" onChange={(e) => (setDescription(e.target.value))} value={description}></input>
                 </label>
                 <label>
-                    <input type="text" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></input>
+                    <input type="text" onChange={(e) => (setIngredients(e.target.value))} value={ingredients}></input>
                 </label>
                 <label>
-                    <input type="text" onChange={(e) => (setCookingSteps(e.target.value))} placeholder="Cooking Steps"></input>
+                    <input type="text" onChange={(e) => (setCookingSteps(e.target.value))} value={cookingSteps}></input>
                 </label>
-                <input type="submit" value="Register"></input>
+                <input type="submit" value="Edit"></input>
             </form>
         </div >
     )

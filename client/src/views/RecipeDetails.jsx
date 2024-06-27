@@ -1,9 +1,9 @@
 import { useState, useEffect} from 'react'
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import axios from 'axios'
 
 const RecipeDetails = () => {
-
+    const navigate = useNavigate()
     const [recipe, setRecipe] = useState({})
     const {id} = useParams()
     useEffect(() => {
@@ -23,6 +23,8 @@ const RecipeDetails = () => {
             <div className="container-left">
                 <div className="recipe Names">
                     <h1>{recipe.name}</h1>
+                    <img src="" alt="edit me" onClick={() => {navigate(`/recipes/${id}/edit`)}}/>
+                    <img src="" alt="delete me" onClick={() => {navigate(`/recipes/${id}/delete`)}}/>
                 </div>
                 <div>
                     <h3>Ingredients</h3>

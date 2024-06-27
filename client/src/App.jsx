@@ -6,7 +6,7 @@ import Home from './views/Home.jsx'
 import AddRecipe from './views/AddRecipe.jsx'
 import RecipeDetails from './views/RecipeDetails.jsx'
 import UpdateRecipe from './views/UpdateRecipe.jsx'
-
+import DeleteRecipe from './components/DeleteRecipe.jsx'
 
 function App() {
 
@@ -20,7 +20,8 @@ function App() {
           <Route path="/recipes" element={<Home />}></Route>
           <Route path="/recipes/add" element={<AddRecipe />}></Route>
           <Route path="/recipes/:id" element={<RecipeDetails />}></Route>
-          <Route path="/recipes/:id/update" element={<UpdateRecipe />}></Route>
+          <Route path="/recipes/:id/edit" element={<UpdateRecipe />}></Route>
+          <Route path="/recipes/:id/delete" element={<DeleteRecipe />}></Route>
         </Routes>
       </BrowserRouter>
     </>
