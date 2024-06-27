@@ -63,7 +63,8 @@ public class WebSecurityConfig {
 						auth -> auth.requestMatchers(
 								"/login",
 								"/register",
-								"/recipes/**")
+								"/recipes/**",
+								"/recipes/*/edit")
 								.permitAll()
 								.anyRequest())
 				.formLogin(form -> form.loginPage("/")

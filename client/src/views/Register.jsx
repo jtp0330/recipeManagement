@@ -22,7 +22,7 @@ const Register = () => {
             'confirmPassword': confirmPassword
         }
         console.log(newUser)
-        axios.post("http://localhost:8080/register",newUser)
+        axios.post("http://localhost:8080/register", newUser)
             .then(
                 resp => {
                     console.log("Register Request Recevied...", resp)
@@ -37,8 +37,8 @@ const Register = () => {
     }
 
     return (
-        <div className="login-page">
-            <form onSubmit={handleRegistration}>
+        <div className="login-page mx-auto">
+            <form onSubmit={handleRegistration} className="d-flex flex-column gap-3">
                 <label>
                     <input type="text" onChange={(e) => (setFirstName(e.target.value))} placeholder="First Name"></input>
                 </label>

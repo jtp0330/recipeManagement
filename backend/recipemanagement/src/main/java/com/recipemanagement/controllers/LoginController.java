@@ -1,8 +1,5 @@
 package com.recipemanagement.controllers;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -12,13 +9,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.recipemanagement.models.LoginUser;
@@ -57,19 +52,17 @@ public class LoginController {
 						user.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
+		String jwt = jwtUtils.generateJwtToken(authentication);
 		// // gets Pojo UserDetailsImpl after authenticating with database
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-		ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+		UserDetailsImpl userDetailsimpl = (UserDetailsImpl) authentication.getPrincipal();
 
 		// return response details back to frontend, with jwt in cookie and
 		// authenticated user details
-		// User userDetails = userService.findByUserEmail(user.getEmail());
+		User userDetails = userService.findByUserEmail(user.getEmail());
 		userService.login(user, result);
 
 		return ResponseEntity.ok()
-				.header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+				.header(jwt)
 				.body(new UserDetailsResponse(userDetails.getId(),
 						userDetails.getFirstName(),
 						userDetails.getLastName(),
@@ -86,17 +79,15 @@ public class LoginController {
 			HttpSession session) {
 
 		// User newUser = new User();
-		// System.out.println(user);
-		// Authentication authentication = authenticationManager.authenticate(
-		// new UsernamePasswordAuthenticationToken(newUser.getEmail(),
-		// newUser.getPassword()));
-		// SecurityContextHolder.getContext().setAuthentication(authentication);
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(newUser.getEmail(),
+						newUser.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		// gets Pojo UserDetailsImpl after authenticating with database
 		// UserDetailsImpl userDetails = (UserDetailsImpl)
 		// authentication.getPrincipal();
-		// // generate new access token
-		// ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+		// generate new access token
 
 		// register user
 		try {
@@ -105,7 +96,6 @@ public class LoginController {
 			System.out.println(e);
 		}
 		return ResponseEntity.ok()
-				// .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
 				.body(new UserDetailsResponse(newUser.getId(),
 						newUser.getFirstName(),
 						newUser.getLastName(),
