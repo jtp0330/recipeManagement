@@ -1,11 +1,11 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 
 const UpdateRecipe = () => {
     const navigate = useNavigate()
-    const {id} = useParams()
+    const { id } = useParams()
     const [recipeName, setRecipeName] = useState("");
     const [description, setDescription] = useState("");
     const [ingredients, setIngredients] = useState("");
@@ -13,13 +13,13 @@ const UpdateRecipe = () => {
 
     useEffect(() => {
         axios.get(`http://localhost:8080/recipes/${id}`)
-            .then(res => { 
+            .then(res => {
                 console.log(res)
                 setRecipeName(res.data.recipeName),
-                setDescription(res.data.description),
-                setIngredients(res.data.ingredients),
-                setCookingSteps(res.data.cookingSteps)
-             }
+                    setDescription(res.data.description),
+                    setIngredients(res.data.ingredients),
+                    setCookingSteps(res.data.cookingSteps)
+            }
             )
             .catch(err => err);
     }, [id])
@@ -27,7 +27,7 @@ const UpdateRecipe = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:8080/recipes/${id}`,
+        axios.put(`http://localhost:8080/recipes/${id}/edit`,
             {
                 recipeName,
                 description,
@@ -37,7 +37,7 @@ const UpdateRecipe = () => {
             .then(res => {
                 console.log(res.data)
                 navigate("/recipes")
-            })
+            }).catch(err => err);
     }
 
     return (

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import loginstyle from '../css/Login.module.css'
+
 import { useNavigate } from 'react-router-dom'
 import { CookiesProvider, useCookies } from 'react-cookie'
 
@@ -17,14 +17,9 @@ const Login = () => {
             "email": email,
             "password": password
         }
-        fetch("http://localhost:8080/login",
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userLogin),
-            })
+        axios.post("http://localhost:8080/login",
+            userLogin
+        )
             .then(resp => resp.json())
             .then(data => {
                 console.log("Login Request Recevied...", data)
@@ -32,7 +27,6 @@ const Login = () => {
                     console.log("Validations Failed!")
                 }
                 else {
-                    setCookie()
                     navigate("/recipes")
                 }
             })
@@ -40,19 +34,21 @@ const Login = () => {
     }
 
     return (
-        <div className={loginstyle.loginPage}>
-            <form onSubmit={handleLogin}>
-                <label>
-                    <input type="text" onChange={(e) => (setEmail(e.target.value))} placeholder="Email"></input>
-                </label>
-                <label>
-                    <input type="password" onChange={(e) => (setPassword(e.target.value))} placeholder="Password"></input>
-                </label>
-                <div className={loginstyle.registerPage}>
-                    <input type="submit" />
-                </div>
-            </form>
-            <button onClick={() => navigate("/register")}>Register</button>
+        <div className="d-flex flex-row gap-5 justify-content-center align-items-center">
+            <div className="d-flex flex-column justify-content-center align-items-center gap-3">
+                <h1>Welcome</h1>
+                <form onSubmit={handleLogin} className="d-flex flex-column gap-3 ">
+                    <label for="email"></label>
+                    <input type="text" className="form-control" id="email" onChange={(e) => (setEmail(e.target.value))} placeholder="Email"></input>
+                    <label for="password"></label>
+                    <input type="password" className="form-control" id="password" onChange={(e) => (setPassword(e.target.value))} placeholder="Password"></input>
+                    <div className="d-flex gap-4 justify-content-center">
+                        <input type="submit" />
+                        <button onClick={() => navigate("/register")}>Register</button>
+                    </div>
+                </form>
+            </div>
+            <img src="" alt="" width="100%" height="100%" />
         </div>
     )
 }
