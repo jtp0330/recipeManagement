@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const Register = () => {
 
@@ -18,19 +19,10 @@ const Register = () => {
             'lastName': lastName,
             'email': email,
             'password': password,
-            'confirmPassword': confirmPassword,
-            'recipes': {}
+            'confirmPassword': confirmPassword
         }
         console.log(newUser)
-        console.log(JSON.stringify(newUser))
-        fetch("http://localhost:8080/register",
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newUser),
-            })
+        axios.post("http://localhost:8080/register",newUser)
             .then(
                 resp => {
                     console.log("Register Request Recevied...", resp)

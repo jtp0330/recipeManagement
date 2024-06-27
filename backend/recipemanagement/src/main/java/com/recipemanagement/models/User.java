@@ -22,24 +22,18 @@ import jakarta.validation.constraints.Size;
 public class User {
 	@Id
 	@Indexed(unique = true)
-	@JsonProperty("_id")
-	@JsonSerialize(using = ToStringSerializer.class)
 	private String id;
 	@Field("firstName")
-	@JsonProperty("firstName")
 	private String firstName;
 	@Field("lastName")
-	@JsonProperty("lastName")
 	private String lastName;
 	@NotEmpty(message = "Email is required!")
 	@Email(message = "Please enter a valid email!")
 	@Field("email")
-	@JsonProperty("email")
 	private String email;
 	@NotEmpty(message = "Password is required!")
 	@Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
 	@Field("password")
-	@JsonProperty("password")
 	private String password;
 	@Transient
 	@NotEmpty(message = "Confirm Password must be between 8 and 128 characters")
