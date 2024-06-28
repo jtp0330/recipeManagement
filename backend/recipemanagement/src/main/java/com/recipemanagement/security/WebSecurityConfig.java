@@ -57,10 +57,12 @@ public class WebSecurityConfig {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
-				.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+				// .exceptionHandling(exception ->
+				// exception.authenticationEntryPoint(unauthorizedHandler))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(
 						auth -> auth.requestMatchers(
+								"/",
 								"/login",
 								"/register",
 								"/recipes/**",
@@ -76,8 +78,10 @@ public class WebSecurityConfig {
 
 		http.authenticationProvider(authenticationProvider());
 
+		// add filter to authenticte each request
 		http.addFilterBefore(authenticationJwtTokenFilter(),
 				UsernamePasswordAuthenticationFilter.class);
+
 		return http.build();
 	}
 }

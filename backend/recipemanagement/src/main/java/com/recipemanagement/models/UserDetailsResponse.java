@@ -1,10 +1,5 @@
 package com.recipemanagement.models;
 
-import java.util.List;
-
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Field;
-
 //for passing details back to frontend
 public class UserDetailsResponse {
 
@@ -12,9 +7,11 @@ public class UserDetailsResponse {
     private String firstName;
     private String lastName;
     private String email;
+    private final String token;
     // private List<Recipe> recipes;
 
     public UserDetailsResponse() {
+        this.token = "";
     }
 
     // public UserDetailsResponse(ObjectId id, String firstName, String lastName,
@@ -26,11 +23,12 @@ public class UserDetailsResponse {
     // this.recipes = recipes;
     // }
 
-    public UserDetailsResponse(String id, String firstName, String lastName, String email) {
+    public UserDetailsResponse(String id, String firstName, String lastName, String email, String token) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.token = token;
         // this.recipes = recipes;
     }
 
@@ -64,6 +62,10 @@ public class UserDetailsResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     // public List<Recipe> getRecipeIds() {

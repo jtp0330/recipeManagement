@@ -54,7 +54,6 @@ public class LoginController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		// // gets Pojo UserDetailsImpl after authenticating with database
-		UserDetailsImpl userDetailsimpl = (UserDetailsImpl) authentication.getPrincipal();
 
 		// return response details back to frontend, with jwt in cookie and
 		// authenticated user details
@@ -66,7 +65,7 @@ public class LoginController {
 				.body(new UserDetailsResponse(userDetails.getId(),
 						userDetails.getFirstName(),
 						userDetails.getLastName(),
-						userDetails.getEmail()));
+						userDetails.getEmail(), jwt));
 
 	}
 
@@ -88,7 +87,7 @@ public class LoginController {
 		// UserDetailsImpl userDetails = (UserDetailsImpl)
 		// authentication.getPrincipal();
 		// generate new access token
-
+		String jwt = jwtUtils.generateJwtToken(authentication);
 		// register user
 		try {
 			userService.register(newUser, result);
@@ -99,7 +98,7 @@ public class LoginController {
 				.body(new UserDetailsResponse(newUser.getId(),
 						newUser.getFirstName(),
 						newUser.getLastName(),
-						newUser.getEmail()));
+						newUser.getEmail(), jwt));
 	}
 
 }

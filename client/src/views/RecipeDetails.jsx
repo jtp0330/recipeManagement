@@ -17,28 +17,33 @@ const RecipeDetails = () => {
     }, [id])
 
     return (
-        <div className="recipe">
-            <div className="container-right">
-                <img src="" alt="" />
-            </div>
-            <div className="container-left">
-                <div className="recipeNames d-flex flex-row">
-                    <h1>{recipe.recipeName}</h1>
-                    <img src="" alt="edit me" onClick={() => { navigate(`/recipes/${id}/edit`) }} />
-                    <img src="" alt="delete me" onClick={() => { navigate(`/recipes/${id}/delete`) }} />
+        <div className="recipe d-flex flex-column gap-5">
+            <a href="/recipes" className="text-start">Back To DashBoard</a>
+            <div>
+                <div className="container-left">
+                    <div className="recipeNames d-flex flex-row align-items-center gap-3">
+                        <h1>{recipe.recipeName}</h1>
+                        <img src="../images/icons8-edit-24.png" alt="edit me" onClick={() => { navigate(`/recipes/${id}/edit`) }} />
+                        <img src="../images/icons8-delete-48.png" alt="delete me" onClick={() => { navigate(`/recipes/${id}/delete`) }} />
+                    </div>
+                    <p className="fs-3 text-start">Uploaded By User's FirstName</p>
+                    <div className="d-flex flex-row gap-5">
+                        <div>
+                            <h3>Ingredients</h3>
+                            <p>{recipe.ingredients}</p>
+                        </div>
+                        <div>
+                            <h3>Cooking steps</h3>
+                            <p>{recipe.cookingSteps}</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="d-flex flex-row gap-5">
-                    <div>
-                        <h3>Ingredients</h3>
-                        <p>{recipe.ingredients}</p>
-                    </div>
-                    <div>
-                        <h3>Cooking steps</h3>
-                        <p>{recipe.cookingSteps}</p>
-                    </div>
+                <div className="container-right mx-auto">
+                    <img src="" alt="food goes here" width="100" height="100" />
                 </div>
             </div>
         </div>
+
     )
 }
 export default RecipeDetails;

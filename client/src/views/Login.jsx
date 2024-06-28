@@ -38,9 +38,9 @@ const Login = () => {
             <div className="d-flex flex-column justify-content-center align-items-center gap-3">
                 <h1>Welcome</h1>
                 <form onSubmit={handleLogin} className="d-flex flex-column gap-3 ">
-                    <label for="email"></label>
+                    <label htmlFor="email"></label>
                     <input type="text" className="form-control" id="email" onChange={(e) => (setEmail(e.target.value))} placeholder="Email"></input>
-                    <label for="password"></label>
+                    <label htmlFor="password"></label>
                     <input type="password" className="form-control" id="password" onChange={(e) => (setPassword(e.target.value))} placeholder="Password"></input>
                     <div className="d-flex gap-4 justify-content-center">
                         <input type="submit" />

@@ -41,20 +41,19 @@ const UpdateRecipe = () => {
     }
 
     return (
-        <div className="update-recipe">
-            <form onSubmit={handleUpdate}>
-                <label>
-                    <input type="text" onChange={(e) => (setRecipeName(e.target.value))} value={recipeName}></input>
-                </label>
-                <label>
-                    <input type="text" onChange={(e) => (setDescription(e.target.value))} value={description}></input>
-                </label>
-                <label>
-                    <input type="text" onChange={(e) => (setIngredients(e.target.value))} value={ingredients}></input>
-                </label>
-                <label>
-                    <input type="text" onChange={(e) => (setCookingSteps(e.target.value))} value={cookingSteps}></input>
-                </label>
+        <div className="update-recipe d-flex flex-column justify-content-center">
+            <a href="/recipes" className="text-start">Back To DashBoard</a>
+            <form onSubmit={handleUpdate} className="d-flex flex-column justify-content-center align-items-center gap-3">
+                <h1>Update your recipe Here!</h1>
+                <label htmlFor="name" />
+                <input type="text" id="name" onChange={(e) => (setRecipeName(e.target.value))} value={recipeName}></input>
+                <label htmlFor="description" />
+                <input type="text" id="description" onChange={(e) => (setDescription(e.target.value))} value={description}></input>
+                <label htmlFor="ingredients" />
+                <input type="text" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} value={ingredients}></input>
+                <label htmlFor="steps" />
+                <input type="text" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} value={cookingSteps}></input>
+                {/* <input type="file" onChange={() => { }} /> */}
                 <input type="submit" value="Edit"></input>
             </form>
         </div >
