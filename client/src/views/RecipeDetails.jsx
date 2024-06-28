@@ -39,7 +39,7 @@ const RecipeDetails = () => {
                     </div>
                 </div>
                 <div className="container-right mx-auto">
-                    <img src={`data:image/png;base64,${recipe.photo.data}`} alt="food goes here" width="100" height="100" />
+                    <img src={recipe.photo ? `data:image/png;base64,${recipe.photo.data}` : ""} alt="food goes here" width="100" height="100" />
                 </div>
             </div>
         </div>

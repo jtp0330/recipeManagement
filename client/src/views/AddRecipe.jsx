@@ -10,6 +10,13 @@ const AddRecipe = () => {
     const [ingredients, setIngredients] = useState("");
     const [cookingSteps, setCookingSteps] = useState("");
     const [recipePic, setRecipePic] = useState("");
+    //error messages
+    const [nameError,setNameError] = useState("");
+    const [descriptionError,setDescriptionError] = useState("");
+    const [ingredientsError,setIngredientsError] = useState("");
+    const [stepsError,setStepsError] = useState("");
+
+
     const handleAdd = (e) => {
         e.preventDefault()
 
@@ -25,10 +32,30 @@ const AddRecipe = () => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-            .then(resp => {
-                console.log(resp)
+            .then(resp => resp.json())
+            .then(data=>{
+                console.log(data)
                 console.log("data request sent!")
-                navigate("/recipes")
+
+                if (data.fieldErrors)
+                    {
+                        data.fieldErrors.forEach(fieldError => {
+                            if(fieldError.field === 'reicpeName'){
+                                setNameError(fieldError.message)
+                            }
+                            if(fieldError.field === 'description'){
+                                setDescriptionError(fieldError.message)
+                            }
+                            if(fieldError.field === 'ingredients'){
+                                setIngredientsError(fieldError.message)
+                            }
+                            if(fieldError.field === 'cookingSteps'){
+                                setStepsError(fieldError.message)
+                            }
+                        })
+                    }
+                else
+                    navigate("/recipes")
             })
             .catch(err => err);
 
@@ -41,12 +68,24 @@ const AddRecipe = () => {
                 <h1>Add your recipe Here!</h1>
                 <label htmlFor="name" />
                 <input type="text" id="name" onChange={(e) => (setRecipeName(e.target.value))} placeholder="Recipe Name"></input>
+                {
+                    nameError ? <span style={{ color: 'red'}}>{nameError}</span> : ''
+                }
                 <label htmlFor="description" />
                 <input type="text" id="description" onChange={(e) => (setDescription(e.target.value))} placeholder="Description"></input>
+                {
+                    descriptionError ? <span style={{ color: 'red'}}>{descriptionError}</span> : ''
+                }
                 <label htmlFor="ingredients" />
                 <input type="text" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></input>
+                {
+                    ingredientsError ? <span style={{ color: 'red'}}>{ingredientsError}</span> : ''
+                }
                 <label htmlFor="steps" />
                 <input type="text" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} placeholder="Cooking Steps"></input>
+                {
+                    stepsError ? <span style={{ color: 'red'}}>{stepsError}</span> : ''
+                }
                 <label htmlFor="pic" />
                 <input type="file" id="pic" onChange={(e) => {
                     setRecipePic(e.target.files[0])

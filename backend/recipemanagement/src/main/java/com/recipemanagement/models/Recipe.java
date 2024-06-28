@@ -7,8 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.mongodb.lang.NonNull;
-
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "recipes")
@@ -17,12 +16,19 @@ public class Recipe {
 	@Id
 	@Indexed(unique = true)
 	private String id;
+	@NotEmpty(message = "recipe must have a name!")
 	@Field("recipeName")
 	private String recipeName;
+	@NotNull
+	@NotEmpty(message = "please describe your recipe!")
 	@Field("description")
 	private String description;
+	@NotNull
+	@NotEmpty(message = "recipe must have ingredients!")
 	@Field("ingredients")
 	private String ingredients;
+	@NotNull
+	@NotEmpty(message = "recipe must have steps!")
 	@Field("cookingSteps")
 	private String cookingSteps;
 	@Field("recipePicture")

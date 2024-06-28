@@ -1,7 +1,5 @@
 package com.recipemanagement.controllers;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,22 +17,22 @@ import com.recipemanagement.exceptions.FieldErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @ControllerAdvice
-public class ControllerErrorHandler extends ResponseEntityExceptionHandler{
-	
+public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
-		
+
 		FieldErrorResponse fieldErrorResponse = new FieldErrorResponse();
-		
+
 		List<CustomFieldError> fieldErrors = new ArrayList<>();
 		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			CustomFieldError fieldError =new CustomFieldError();
+			CustomFieldError fieldError = new CustomFieldError();
 			fieldError.setField(((FieldError) error).getField());
 			fieldError.setMessage(error.getDefaultMessage());
 			fieldErrors.add(fieldError);
 		});
-		
+
 		fieldErrorResponse.setFieldErrors(fieldErrors);
 		return new ResponseEntity<>(fieldErrorResponse, status);
 	}
