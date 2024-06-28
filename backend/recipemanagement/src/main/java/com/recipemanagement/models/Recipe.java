@@ -40,6 +40,7 @@ public class Recipe {
 			Binary photo) {
 
 		this.id = id;
+		this.recipeName = recipeName;
 		this.description = description;
 		this.ingredients = ingredients;
 		this.cookingSteps = cookingSteps;
