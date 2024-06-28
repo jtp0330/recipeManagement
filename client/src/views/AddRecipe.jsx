@@ -9,21 +9,22 @@ const AddRecipe = () => {
     const [description, setDescription] = useState("");
     const [ingredients, setIngredients] = useState("");
     const [cookingSteps, setCookingSteps] = useState("");
+    const [recipePic, setRecipePic] = useState("");
     const handleAdd = (e) => {
         e.preventDefault()
-        // const newRecipe = {
-        //     'recipeName': recipeName,
-        //     'description': description,
-        //     'ingredients': ingredients,
-        //     'cookingSteps': cookingSteps
-        // }
-        axios.post('http://localhost:8080/recipes/add',
-            {
-                recipeName,
-                description,
-                ingredients,
-                cookingSteps
-            })
+
+        const recipeData = new FormData()
+        recipeData.append('recipeName', recipeName)
+        recipeData.append('description', description)
+        recipeData.append('ingredients', ingredients)
+        recipeData.append('cookingSteps', cookingSteps)
+        recipeData.append('recipePic', recipePic)
+        console.log(recipeData)
+        axios.post('http://localhost:8080/recipes/add', recipeData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
             .then(resp => {
                 console.log(resp)
                 console.log("data request sent!")
@@ -46,9 +47,10 @@ const AddRecipe = () => {
                 <input type="text" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></input>
                 <label htmlFor="steps" />
                 <input type="text" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} placeholder="Cooking Steps"></input>
-                {/* <input type="file" onChange={() => { }} /> */}
-
-
+                <label htmlFor="pic" />
+                <input type="file" id="pic" onChange={(e) => {
+                    setRecipePic(e.target.files[0])
+                }} placeholder="Upload" />
                 <input type="submit" value="Add Recipe"></input>
             </form>
         </div >

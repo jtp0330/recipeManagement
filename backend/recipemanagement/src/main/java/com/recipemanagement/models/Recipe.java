@@ -1,11 +1,11 @@
 package com.recipemanagement.models;
 
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import com.mongodb.lang.NonNull;
 
@@ -25,24 +25,35 @@ public class Recipe {
 	private String ingredients;
 	@Field("cookingSteps")
 	private String cookingSteps;
+	@Field("recipePicture")
+	private Binary photo;
 	// reference back to User One To Many
 	@Field("user")
 	@DocumentReference(lazy = true)
 	private User user;
 	// stretch goal
-	// private byte[] imageData;
 
 	public Recipe() {
 	}
 
-	public Recipe(String id, String recipeName, String description, String ingredients, String cookingSteps
-	// byte[] imageData) {
-	) {
+	public Recipe(String id, String recipeName, String description, String ingredients, String cookingSteps,
+			Binary photo) {
+
 		this.id = id;
 		this.description = description;
 		this.ingredients = ingredients;
 		this.cookingSteps = cookingSteps;
-		// this.imageData = imageData;
+		this.photo = photo;
+	}
+
+	public Recipe(String recipeName, String description, String ingredients, String cookingSteps,
+			Binary photo) {
+
+		this.recipeName = recipeName;
+		this.description = description;
+		this.ingredients = ingredients;
+		this.cookingSteps = cookingSteps;
+		this.photo = photo;
 	}
 
 	public String getId() {
@@ -84,11 +95,13 @@ public class Recipe {
 	public void setCookingSteps(String cookingSteps) {
 		this.cookingSteps = cookingSteps;
 	}
-	// public byte[] getImageData() {
-	// return imageData;
-	// }
-	// public void setImageData(byte[] imageData) {
-	// this.imageData = imageData;
-	// }
+
+	public Binary getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Binary photo) {
+		this.photo = photo;
+	}
 
 }
