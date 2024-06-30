@@ -1,11 +1,14 @@
 package com.recipemanagement.models;
 
+import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.mongodb.lang.NonNull;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -19,20 +22,17 @@ public class Recipe {
 	@NotEmpty(message = "recipe must have a name!")
 	@Field("recipeName")
 	private String recipeName;
-	@NotNull
 	@NotEmpty(message = "please describe your recipe!")
 	@Field("description")
 	private String description;
-	@NotNull
 	@NotEmpty(message = "recipe must have ingredients!")
 	@Field("ingredients")
 	private String ingredients;
-	@NotNull
 	@NotEmpty(message = "recipe must have steps!")
 	@Field("cookingSteps")
 	private String cookingSteps;
 	@Field("recipePicture")
-	private Binary photo;
+	private Binary recipePic;
 	// reference back to User One To Many
 	@Field("user")
 	@DocumentReference(lazy = true)
@@ -42,25 +42,47 @@ public class Recipe {
 	public Recipe() {
 	}
 
+	public Recipe(Recipe recipe) {
+		this.id = recipe.getId();
+		this.description = recipe.getDescription();
+		this.ingredients = recipe.getIngredients();
+		this.cookingSteps = recipe.getCookingSteps();
+		this.recipePic = recipe.getRecipePic();
+	}
+
 	public Recipe(String id, String recipeName, String description, String ingredients, String cookingSteps,
-			Binary photo) {
+			Binary recipePic) {
 
 		this.id = id;
 		this.recipeName = recipeName;
 		this.description = description;
 		this.ingredients = ingredients;
 		this.cookingSteps = cookingSteps;
-		this.photo = photo;
+		this.recipePic = recipePic;
 	}
 
-	public Recipe(String recipeName, String description, String ingredients, String cookingSteps,
-			Binary photo) {
+	public Recipe(String recipeName, String description, String ingredients,
+			String cookingSteps,
+			Binary recipePic) {
 
 		this.recipeName = recipeName;
 		this.description = description;
 		this.ingredients = ingredients;
 		this.cookingSteps = cookingSteps;
-		this.photo = photo;
+		this.recipePic = recipePic;
+	}
+
+	// for json + image upload via post
+	public Recipe(String recipeName, String description, String ingredients, String cookingSteps,
+			String recipePicdata) {
+
+		this.recipeName = recipeName;
+		this.description = description;
+		this.ingredients = ingredients;
+		this.cookingSteps = cookingSteps;
+		// converts image data to byte array and then to binary
+		byte[] picBytes = recipePicdata.getBytes();
+		this.recipePic = new Binary(BsonBinarySubType.BINARY, picBytes);
 	}
 
 	public String getId() {
@@ -103,12 +125,12 @@ public class Recipe {
 		this.cookingSteps = cookingSteps;
 	}
 
-	public Binary getPhoto() {
-		return photo;
+	public Binary getRecipePic() {
+		return recipePic;
 	}
 
-	public void setPhoto(Binary photo) {
-		this.photo = photo;
+	public void setRecipePic(Binary recipePic) {
+		this.recipePic = recipePic;
 	}
 
 }

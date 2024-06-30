@@ -15,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.recipemanagement.security.jwt.JwtEntryPoint;
-import com.recipemanagement.security.jwt.JwtFilter;
+// import com.recipemanagement.security.jwt.JwtEntryPoint;
+// import com.recipemanagement.security.jwt.JwtFilter;
 import com.recipemanagement.services.UserDetailsServiceImpl;
 
 @Configuration
@@ -25,34 +25,36 @@ import com.recipemanagement.services.UserDetailsServiceImpl;
 public class WebSecurityConfig {
 	// acts as medium to extract user information and pass to the repository,
 	// database
-	@Autowired
-	UserDetailsServiceImpl userService;
-	@Autowired
-	private JwtEntryPoint unauthorizedHandler;
+	// @Autowired
+	// UserDetailsServiceImpl userService;
+	// @Autowired
+	// private JwtEntryPoint unauthorizedHandler;
 
-	@Bean
-	public JwtFilter authenticationJwtTokenFilter() {
-		return new JwtFilter();
-	}
+	// @Bean
+	// public JwtFilter authenticationJwtTokenFilter() {
+	// return new JwtFilter();
+	// }
 
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userService);
-		authProvider.setPasswordEncoder(passwordEncoder());
+	// @Bean
+	// public DaoAuthenticationProvider authenticationProvider() {
+	// DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+	// authProvider.setUserDetailsService(userService);
+	// authProvider.setPasswordEncoder(passwordEncoder());
 
-		return authProvider;
-	}
+	// return authProvider;
+	// }
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-		return authConfig.getAuthenticationManager();
-	}
+	// @Bean
+	// public AuthenticationManager
+	// authenticationManager(AuthenticationConfiguration authConfig) throws
+	// Exception {
+	// return authConfig.getAuthenticationManager();
+	// }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	// @Bean
+	// public PasswordEncoder passwordEncoder() {
+	// return new BCryptPasswordEncoder();
+	// }
 
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -76,11 +78,11 @@ public class WebSecurityConfig {
 						.permitAll())
 				.logout(logout -> logout.permitAll());
 
-		http.authenticationProvider(authenticationProvider());
+		// http.authenticationProvider(authenticationProvider());
 
-		// add filter to authenticte each request
-		http.addFilterBefore(authenticationJwtTokenFilter(),
-				UsernamePasswordAuthenticationFilter.class);
+		// // add filter to authenticte each request
+		// http.addFilterBefore(authenticationJwtTokenFilter(),
+		// UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
