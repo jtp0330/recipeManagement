@@ -10,15 +10,17 @@ const UpdateRecipe = () => {
     const [description, setDescription] = useState("");
     const [ingredients, setIngredients] = useState("");
     const [cookingSteps, setCookingSteps] = useState("");
+    const [recipePic, setRecipePic] = useState("");
 
     useEffect(() => {
         axios.get(`http://localhost:8080/recipes/${id}`)
             .then(res => {
                 console.log(res)
-                setRecipeName(res.data.recipeName),
-                    setDescription(res.data.description),
-                    setIngredients(res.data.ingredients),
-                    setCookingSteps(res.data.cookingSteps)
+                setRecipeName(res.data.recipeName)
+                setDescription(res.data.description)
+                setIngredients(res.data.ingredients)
+                setCookingSteps(res.data.cookingSteps)
+                setRecipePic(res.data.recipePic)
             }
             )
             .catch(err => err);
@@ -27,13 +29,22 @@ const UpdateRecipe = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
+
+        const recipeData = new FormData()
+        recipeData.append('recipeName', recipeName)
+        recipeData.append('description', description)
+        recipeData.append('ingredients', ingredients)
+        recipeData.append('cookingSteps', cookingSteps)
+        recipeData.append('recipePic', recipePic)
+
         axios.put(`http://localhost:8080/recipes/${id}/edit`,
+            recipeData,
             {
-                recipeName,
-                description,
-                ingredients,
-                cookingSteps
-            })
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        )
             .then(res => {
                 console.log(res.data)
                 navigate("/recipes")
@@ -53,7 +64,9 @@ const UpdateRecipe = () => {
                 <input type="text" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} value={ingredients}></input>
                 <label htmlFor="steps" />
                 <input type="text" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} value={cookingSteps}></input>
-                {/* <input type="file" onChange={() => { }} /> */}
+                <input type="file" id="pic" onChange={(e) => {
+                    setRecipePic(e.target.files[0])
+                }} placeholder="Upload" />
                 <input type="submit" value="Edit"></input>
             </form>
         </div >
