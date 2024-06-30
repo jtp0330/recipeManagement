@@ -31,8 +31,9 @@ public class Recipe {
 	@NotEmpty(message = "recipe must have steps!")
 	@Field("cookingSteps")
 	private String cookingSteps;
+	@NotEmpty(message = "please upload a picture of your recipe!")
 	@Field("recipePicture")
-	private Binary recipePic;
+	private String recipePic;
 	// reference back to User One To Many
 	@Field("user")
 	@DocumentReference(lazy = true)
@@ -51,7 +52,7 @@ public class Recipe {
 	}
 
 	public Recipe(String id, String recipeName, String description, String ingredients, String cookingSteps,
-			Binary recipePic) {
+			String recipePic) {
 
 		this.id = id;
 		this.recipeName = recipeName;
@@ -59,30 +60,6 @@ public class Recipe {
 		this.ingredients = ingredients;
 		this.cookingSteps = cookingSteps;
 		this.recipePic = recipePic;
-	}
-
-	public Recipe(String recipeName, String description, String ingredients,
-			String cookingSteps,
-			Binary recipePic) {
-
-		this.recipeName = recipeName;
-		this.description = description;
-		this.ingredients = ingredients;
-		this.cookingSteps = cookingSteps;
-		this.recipePic = recipePic;
-	}
-
-	// for json + image upload via post
-	public Recipe(String recipeName, String description, String ingredients, String cookingSteps,
-			String recipePicdata) {
-
-		this.recipeName = recipeName;
-		this.description = description;
-		this.ingredients = ingredients;
-		this.cookingSteps = cookingSteps;
-		// converts image data to byte array and then to binary
-		byte[] picBytes = recipePicdata.getBytes();
-		this.recipePic = new Binary(BsonBinarySubType.BINARY, picBytes);
 	}
 
 	public String getId() {
@@ -125,11 +102,11 @@ public class Recipe {
 		this.cookingSteps = cookingSteps;
 	}
 
-	public Binary getRecipePic() {
+	public String getRecipePic() {
 		return recipePic;
 	}
 
-	public void setRecipePic(Binary recipePic) {
+	public void setRecipePic(String recipePic) {
 		this.recipePic = recipePic;
 	}
 

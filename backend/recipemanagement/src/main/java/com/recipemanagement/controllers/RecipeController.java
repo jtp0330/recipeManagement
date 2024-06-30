@@ -67,7 +67,6 @@ public class RecipeController {
 	@PostMapping("/recipes/add")
 	public ResponseEntity<?> addRecipe(@Valid @ModelAttribute Recipe recipeData) {
 		// add recipe
-
 		System.out.println(recipeData);
 		recipeService.addRecipe(recipeData);
 		return ResponseEntity.ok("recipe has been created!");
@@ -93,7 +92,7 @@ public class RecipeController {
 
 		// edit current recipe
 		Recipe recipe = new Recipe(id, recipeName, description, ingredients, cookingSteps,
-				new Binary(BsonBinarySubType.BINARY, recipePic.getBytes()));
+				));
 		Recipe r = recipeService.updateRecipe(recipe);
 		return ResponseEntity.ok("Recipe has ben updated");
 	}

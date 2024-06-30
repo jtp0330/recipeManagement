@@ -17,6 +17,7 @@ const AddRecipe = () => {
 
 
     const ToBase64 = (image) => {
+        const image_blob = response.blob()
         const image_json = JSON.stringify(image);
         return btoa(image_json);
     }
@@ -94,7 +95,7 @@ const AddRecipe = () => {
                 }
                 <label htmlFor="pic" />
                 <input type="file" id="pic" onChange={(e) => {
-                    setRecipePic(e.target.files[0])
+                    setRecipePic(ToBase64(e.target.files[0]))
                 }} placeholder="Upload" />
                 <input type="submit" value="Add Recipe"></input>
             </form>
