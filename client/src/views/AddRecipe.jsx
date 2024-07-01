@@ -16,22 +16,23 @@ const AddRecipe = () => {
     const [stepsError, setStepsError] = useState("");
 
 
-    const ToBase64 = (image) => {
-        const image_blob = response.blob()
-        const image_json = JSON.stringify(image);
-        return btoa(image_json);
-    }
+    // const ToBase64 = (image) => {
+    //     const image_blob = response.blob()
+    //     const image_json = JSON.stringify(image);
+    //     return btoa(image_json);
+    // }
     const handleAdd = (e) => {
         e.preventDefault()
 
         //convert image into base64 string
         console.log(recipePic)
         const recipeData = new FormData()
-        recipeData.append('recipeName', recipeName)
-        recipeData.append('description', description)
-        recipeData.append('ingredients', ingredients)
-        recipeData.append('cookingSteps', cookingSteps)
-        recipeData.append('recipePic', recipePic)
+        recipeData.append('recipeName', recipeName);
+        recipeData.append('description',description);
+        recipeData.append('ingredients',ingredients);
+        recipeData.append('cookingSteps',cookingSteps);
+        recipeData.append('recipePic', new Blob([recipePic], { type: 'application/octet-stream' }));
+
         console.log(recipeData)
 
         axios.post('http://localhost:8080/recipes/add',
@@ -43,9 +44,11 @@ const AddRecipe = () => {
             //     }
             // }
         ).then(resp => {
+            console.log(resp)
             console.log("data request sent!")
             navigate("/recipes")
         }).catch(err => {
+            //load validations into request
             console.log(err)
             let validations = err.response.data.errors ? err.response.data.errors : null;
             if (validations) {
@@ -95,7 +98,7 @@ const AddRecipe = () => {
                 }
                 <label htmlFor="pic" />
                 <input type="file" id="pic" onChange={(e) => {
-                    setRecipePic(ToBase64(e.target.files[0]))
+                    setRecipePic(e.target.files[0])
                 }} placeholder="Upload" />
                 <input type="submit" value="Add Recipe"></input>
             </form>

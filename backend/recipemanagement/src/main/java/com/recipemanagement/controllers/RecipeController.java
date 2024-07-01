@@ -46,31 +46,31 @@ public class RecipeController {
 		return recipeService.findAll();
 	}
 
-	// @CrossOrigin(origins = "http://localhost:5173")
-	// @PostMapping("/recipes/add")
-	// public ResponseEntity<?> addRecipe(
-	// @Valid @RequestParam("recipeName") String recipeName,
-	// @Valid @RequestParam("description") String description,
-	// @Valid @RequestParam("ingredients") String ingredients,
-	// @Valid @RequestParam("cookingSteps") String cookingSteps,
-	// @Valid @RequestParam("recipePic") MultipartFile recipePic) throws IOException
-	// {
-	// // add recipe
-	// Recipe recipe = new Recipe(recipeName, description, ingredients,
-	// cookingSteps, new Binary(BsonBinarySubType.BINARY, recipePic.getBytes()));
-
-	// recipeService.addRecipe(recipe);
-	// return ResponseEntity.ok("recipe has been created!");
-	// }
-
 	@CrossOrigin(origins = "http://localhost:5173")
 	@PostMapping("/recipes/add")
-	public ResponseEntity<?> addRecipe(@Valid @ModelAttribute Recipe recipeData) {
+	public ResponseEntity<?> addRecipe(
+			@Valid @RequestParam("recipeName") String recipeName,
+			@Valid @RequestParam("description") String description,
+			@Valid @RequestParam("ingredients") String ingredients,
+			@Valid @RequestParam("cookingSteps") String cookingSteps,
+			@Valid @RequestParam("recipePic") MultipartFile recipePic) throws IOException {
 		// add recipe
-		System.out.println(recipeData);
-		recipeService.addRecipe(recipeData);
+		Recipe recipe = new Recipe(recipeName, description, ingredients,
+				cookingSteps, new Binary(BsonBinarySubType.BINARY, recipePic.getBytes()));
+
+		recipeService.addRecipe(recipe);
 		return ResponseEntity.ok("recipe has been created!");
 	}
+
+	// @CrossOrigin(origins = "http://localhost:5173")
+	// @PostMapping("/recipes/add")
+	// public ResponseEntity<?> addRecipe(@Valid @ModelAttribute Recipe recipeData)
+	// {
+	// // add recipe
+	// System.out.println(recipeData);
+	// recipeService.addRecipe(recipeData);
+	// return ResponseEntity.ok("recipe has been created!");
+	// }
 
 	@CrossOrigin(origins = "http://localhost:5173")
 	@GetMapping("/recipes/{id}")
@@ -81,18 +81,15 @@ public class RecipeController {
 	@CrossOrigin(origins = "http://localhost:5173")
 	@PutMapping("/recipes/{id}/edit")
 	public ResponseEntity<?> editRecipe(@Valid @PathVariable("id") String id,
-			@RequestPart String recipeName,
-			@RequestPart String description,
-			@RequestPart String ingredients,
-			@RequestPart String cookingSteps,
-			@RequestPart MultipartFile recipePic,
-			BindingResult result,
-			Model model,
-			HttpSession session) throws IOException {
+			@Valid @RequestPart String recipeName,
+			@Valid @RequestPart String description,
+			@Valid @RequestPart String ingredients,
+			@Valid @RequestPart String cookingSteps,
+			@Valid @RequestPart MultipartFile recipePic) throws IOException {
 
 		// edit current recipe
 		Recipe recipe = new Recipe(id, recipeName, description, ingredients, cookingSteps,
-				));
+				new Binary(BsonBinarySubType.BINARY, recipePic.getBytes()));
 		Recipe r = recipeService.updateRecipe(recipe);
 		return ResponseEntity.ok("Recipe has ben updated");
 	}

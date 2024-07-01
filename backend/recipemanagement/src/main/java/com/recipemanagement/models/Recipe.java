@@ -31,9 +31,8 @@ public class Recipe {
 	@NotEmpty(message = "recipe must have steps!")
 	@Field("cookingSteps")
 	private String cookingSteps;
-	@NotEmpty(message = "please upload a picture of your recipe!")
 	@Field("recipePicture")
-	private String recipePic;
+	private Binary recipePic;
 	// reference back to User One To Many
 	@Field("user")
 	@DocumentReference(lazy = true)
@@ -52,9 +51,18 @@ public class Recipe {
 	}
 
 	public Recipe(String id, String recipeName, String description, String ingredients, String cookingSteps,
-			String recipePic) {
+			Binary recipePic) {
 
 		this.id = id;
+		this.recipeName = recipeName;
+		this.description = description;
+		this.ingredients = ingredients;
+		this.cookingSteps = cookingSteps;
+		this.recipePic = recipePic;
+	}
+
+	public Recipe(String recipeName, String description, String ingredients, String cookingSteps,
+			Binary recipePic) {
 		this.recipeName = recipeName;
 		this.description = description;
 		this.ingredients = ingredients;
@@ -102,11 +110,11 @@ public class Recipe {
 		this.cookingSteps = cookingSteps;
 	}
 
-	public String getRecipePic() {
+	public Binary getRecipePic() {
 		return recipePic;
 	}
 
-	public void setRecipePic(String recipePic) {
+	public void setRecipePic(Binary recipePic) {
 		this.recipePic = recipePic;
 	}
 
