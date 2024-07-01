@@ -7,26 +7,19 @@ import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.recipemanagement.models.Recipe;
 import com.recipemanagement.services.RecipeService;
-import com.recipemanagement.services.UserService;
 
-import ch.qos.logback.core.model.Model;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @RestController
@@ -34,8 +27,6 @@ public class RecipeController {
 
 	@Autowired
 	RecipeService recipeService;
-	@Autowired
-	UserService userService;
 
 	// // template to interact with MongoDB Connection
 	// MongoTemplate mongoTemplate = null;
@@ -62,16 +53,6 @@ public class RecipeController {
 		return ResponseEntity.ok("recipe has been created!");
 	}
 
-	// @CrossOrigin(origins = "http://localhost:5173")
-	// @PostMapping("/recipes/add")
-	// public ResponseEntity<?> addRecipe(@Valid @ModelAttribute Recipe recipeData)
-	// {
-	// // add recipe
-	// System.out.println(recipeData);
-	// recipeService.addRecipe(recipeData);
-	// return ResponseEntity.ok("recipe has been created!");
-	// }
-
 	@CrossOrigin(origins = "http://localhost:5173")
 	@GetMapping("/recipes/{id}")
 	public Recipe recipe(@PathVariable("id") String id) {
@@ -90,7 +71,7 @@ public class RecipeController {
 		// edit current recipe
 		Recipe recipe = new Recipe(id, recipeName, description, ingredients, cookingSteps,
 				new Binary(BsonBinarySubType.BINARY, recipePic.getBytes()));
-		Recipe r = recipeService.updateRecipe(recipe);
+		recipeService.updateRecipe(recipe);
 		return ResponseEntity.ok("Recipe has ben updated");
 	}
 

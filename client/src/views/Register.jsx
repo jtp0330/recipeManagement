@@ -26,10 +26,7 @@ const Register = () => {
             .then(
                 resp => {
                     console.log("Register Request Recevied...", resp)
-                    if (resp.status != 200)
-                        console.log("Failed Validations!")
-                    else
-                        navigate("/recipes")
+                    navigate("/recipes")
                 }
             )
             .catch(error => console.error('Error creating user:', error));
@@ -37,7 +34,9 @@ const Register = () => {
     }
 
     return (
-        <div className="login-page mx-auto">
+        <div className="login-page mx-auto d-flex flex-column gap-3">
+            <a href="/" className="text-start">Back To DashBoard</a>
+            <h1>Register Here</h1>
             <form onSubmit={handleRegistration} className="d-flex flex-column gap-3">
                 <label>
                     <input type="text" onChange={(e) => (setFirstName(e.target.value))} placeholder="First Name"></input>

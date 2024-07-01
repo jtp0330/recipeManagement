@@ -1,5 +1,9 @@
 // package com.recipemanagement.controllers;
 
+//////////// Strech Goal////////////////////:
+
+// //Not Implemented yet
+
 // import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.http.HttpHeaders;
 // import org.springframework.http.ResponseCookie;
@@ -19,9 +23,9 @@
 
 // import com.recipemanagement.models.LoginUser;
 // import com.recipemanagement.models.User;
-// import com.recipemanagement.models.UserDetailsResponse;
+// import com.recipemanagement.models.LoginResponse;
 // import com.recipemanagement.security.UserDetailsImpl;
-// import com.recipemanagement.security.jwt.JwtUtils;
+// import com.recipemanagement.services.JwtUtils;
 // // import com.recipemanagement.security.jwt.JwtUtils;
 // import com.recipemanagement.services.UserService;
 
@@ -47,8 +51,9 @@
 
 // @CrossOrigin(origins = "http://localhost:5173")
 // @PostMapping("/login")
-// public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginUser user,
-// BindingResult result) {
+// public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginUser
+// user, BindingResult result) {
+
 // Authentication authentication = authenticationManager.authenticate(
 // new UsernamePasswordAuthenticationToken(user.getEmail(),
 // user.getPassword()));
@@ -62,22 +67,17 @@
 // User userDetails = userService.findByUserEmail(user.getEmail());
 // userService.login(user, result);
 
-// return ResponseEntity.ok()
-// .header(jwt)
-// .body(new UserDetailsResponse(userDetails.getId(),
-// userDetails.getFirstName(),
-// userDetails.getLastName(),
-// userDetails.getEmail(), jwt));
+// return ResponseEntity.ok(new LoginResponse(
+// user.getEmail(),
+// jwt));
 
 // }
 
 // // must parse data from request json to User object
 // @CrossOrigin(origins = "http://localhost:5173")
 // @PostMapping("/register")
-// public ResponseEntity<?> register(@Valid @RequestBody User newUser,
-// BindingResult result,
-// Model model,
-// HttpSession session) {
+// public ResponseEntity<User> register(@Valid @RequestBody User newUser,
+// BindingResult result) {
 
 // // User newUser = new User();
 // Authentication authentication = authenticationManager.authenticate(
@@ -89,18 +89,9 @@
 // // UserDetailsImpl userDetails = (UserDetailsImpl)
 // // authentication.getPrincipal();
 // // generate new access token
-// String jwt = jwtUtils.generateJwtToken(authentication);
+// // String jwt = jwtUtils.generateJwtToken(authentication);
 // // register user
-// try {
-// userService.register(newUser, result);
-// } catch (Exception e) {
-// System.out.println(e);
-// }
-// return ResponseEntity.ok()
-// .body(new UserDetailsResponse(newUser.getId(),
-// newUser.getFirstName(),
-// newUser.getLastName(),
-// newUser.getEmail(), jwt));
+// return ResponseEntity.ok(userService.register(newUser, result));
 // }
 
 // }

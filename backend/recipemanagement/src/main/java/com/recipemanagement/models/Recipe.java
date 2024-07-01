@@ -1,6 +1,5 @@
 package com.recipemanagement.models;
 
-import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -8,10 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.mongodb.lang.NonNull;
-
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "recipes")
 public class Recipe {
@@ -61,7 +57,9 @@ public class Recipe {
 		this.recipePic = recipePic;
 	}
 
-	public Recipe(String recipeName, String description, String ingredients, String cookingSteps,
+	// overloaded constructor required for post request
+	public Recipe(String recipeName, String description, String ingredients,
+			String cookingSteps,
 			Binary recipePic) {
 		this.recipeName = recipeName;
 		this.description = description;

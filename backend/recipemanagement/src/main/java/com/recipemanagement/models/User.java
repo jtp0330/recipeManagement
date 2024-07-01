@@ -1,25 +1,25 @@
 package com.recipemanagement.models;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Date;
 
-import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 @Document(collection = "users")
-public class User {
+public class User implements UserDetails {
 	@Id
 	@Indexed(unique = true)
 	private String id;
@@ -39,6 +39,12 @@ public class User {
 	@NotEmpty(message = "Confirm Password must be between 8 and 128 characters")
 	@JsonProperty("confirmPassword")
 	private String confirmPassword;
+	@Field("createdAt")
+	@CreatedDate
+	private Date createdAt;
+	@LastModifiedDate
+	@Field("updatedAt")
+	private Date updatedAt;
 
 	// One To Many Recipes
 	// @DocumentReference
@@ -48,14 +54,16 @@ public class User {
 	public User() {
 	}
 
-	public User(String id, String firstName, String lastName, String email, String password, String confirmPassword) {
+	public User(String id, String firstName, String lastName, String email, String password, String confirmPassword,
+			Date createdAt, Date updatedAt) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
-
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 
 	public String getId() {
@@ -104,6 +112,40 @@ public class User {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+
+	public Date getCreatedDate() {
+		return createdAt;
+	}
+
+	public void setCreatedDate(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedAt;
+	}
+
+	public void setUpdatedDate(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	// required for spring security, but we do not use this
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
 	}
 
 }

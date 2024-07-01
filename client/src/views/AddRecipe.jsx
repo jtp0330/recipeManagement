@@ -43,7 +43,9 @@ const AddRecipe = () => {
         .then(resp => {
             console.log(resp)
             console.log("data request sent!")
-            navigate("/recipes")
+            navigate("/")
+            // navigate("/recipes")
+
         }).catch(err => {
             //load validations into request
             console.log(err)
@@ -70,7 +72,10 @@ const AddRecipe = () => {
     }
     return (
         <div className="add-recipe d-flex flex-column justify-content-center">
-            <a href="/recipes" className="text-start">Back To DashBoard</a>
+            <a href="/" className="text-start">Back To Dashboard</a>
+            {/* In case login-register is implemented */}
+            {/* <a href="/recipes" className="text-start">Back To Dashboard</a> */}
+
             <form onSubmit={handleAdd} className="d-flex flex-column justify-content-center align-items-center gap-3">
                 <h1>Add your recipe Here!</h1>
                 <label htmlFor="name" />
@@ -84,12 +89,12 @@ const AddRecipe = () => {
                     descriptionError ? <span style={{ color: 'red' }}>{descriptionError}</span> : ''
                 }
                 <label htmlFor="ingredients" />
-                <textarea rows="10" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></textarea>
+                <textarea rows="5" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></textarea>
                 {
                     ingredientsError ? <span style={{ color: 'red' }}>{ingredientsError}</span> : ''
                 }
                 <label htmlFor="steps" />
-                <input type="text" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} placeholder="Cooking Steps"></input>
+                <textarea rows="5" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} placeholder="Cooking Steps"></textarea>
                 {
                     stepsError ? <span style={{ color: 'red' }}>{stepsError}</span> : ''
                 }

@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventL
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+//handles data validations to be determined by spring model
 @Configuration
 @EnableMongoRepositories("com.recipemanagement.repositories")
 public class MongoConfig {

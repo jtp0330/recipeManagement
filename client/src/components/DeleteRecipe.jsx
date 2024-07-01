@@ -8,7 +8,8 @@ const DeleteRecipe = () => {
     axios.delete(`http://localhost:8080/recipes/${id}/delete`)
         .then(res => {
             console.log(res.data)
-            navigate("/recipes")
+            navigate("/")
+            // navigate("/recipes")
         })
 }
 export default DeleteRecipe;

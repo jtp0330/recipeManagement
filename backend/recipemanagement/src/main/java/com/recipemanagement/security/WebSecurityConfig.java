@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 // import com.recipemanagement.security.jwt.JwtEntryPoint;
 // import com.recipemanagement.security.jwt.JwtFilter;
-import com.recipemanagement.services.UserDetailsServiceImpl;
+// import com.recipemanagement.security.jwt.JwtEntryPoint;
+// import com.recipemanagement.security.jwt.JwtFilter;
+// import com.recipemanagement.services.UserDetailsServiceImpl;
 
 @Configuration
 // @EnableWebSecurity
@@ -27,14 +30,17 @@ public class WebSecurityConfig {
 	// database
 	// @Autowired
 	// UserDetailsServiceImpl userService;
+	// // handles unauthorized requests
 	// @Autowired
 	// private JwtEntryPoint unauthorizedHandler;
 
+	// // filters requests to recipes api/controller
 	// @Bean
 	// public JwtFilter authenticationJwtTokenFilter() {
 	// return new JwtFilter();
 	// }
 
+	// // loads authentication manager
 	// @Bean
 	// public DaoAuthenticationProvider authenticationProvider() {
 	// DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -61,29 +67,29 @@ public class WebSecurityConfig {
 		http.csrf(csrf -> csrf.disable())
 				// .exceptionHandling(exception ->
 				// exception.authenticationEntryPoint(unauthorizedHandler))
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(
-						auth -> auth.requestMatchers(
-								"/",
-								"/login",
-								"/register",
-								"/recipes/**",
-								"/recipes/*/edit")
-								.permitAll()
-								.anyRequest())
-				.formLogin(form -> form.loginPage("/")
-						// .usernameParameter("email")
-						// .passwordParameter("password")
-						.defaultSuccessUrl("/recipes")
-						.permitAll())
-				.logout(logout -> logout.permitAll());
-
-		// http.authenticationProvider(authenticationProvider());
-
-		// // add filter to authenticte each request
-		// http.addFilterBefore(authenticationJwtTokenFilter(),
+				// .sessionManagement(session ->
+				// session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(auth -> auth.requestMatchers(
+						"/recipes",
+						"/recipes/**",
+						"/recipes/*/edit")
+						.permitAll());
+		// .formLogin(form -> form.loginPage("/")
+		// .defaultSuccessUrl("/recipes")
+		// .permitAll())
+		// .logout(logout -> logout.permitAll())
+		// .authenticationProvider(authenticationProvider())
+		// .addFilterBefore(authenticationJwtTokenFilter(),
 		// UsernamePasswordAuthenticationFilter.class);
+
+		// add filter to authenticte each request
 
 		return http.build();
 	}
+
+	// configure bcrypt password encryption at global scale
+	// public void configureGlobal(AuthenticationManagerBuilder auth) throws
+	// Exception {
+	// auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+	// }
 }

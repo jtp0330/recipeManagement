@@ -54,10 +54,12 @@ const UpdateRecipe = () => {
         axios.put(`http://localhost:8080/recipes/${id}/edit`,recipeData)
         .then(res => {
                 console.log(res.data)
-                navigate("/recipes")
+                // navigate("/recipes")
+                navigate("/")
+
             }).catch(err => {
                 //load validations into request
-                console.log(err)
+                
                 let validations = err.response.data.errors ? err.response.data.errors : null;
                 if (validations) {
                     validations.forEach(error => {
@@ -80,7 +82,11 @@ const UpdateRecipe = () => {
 
     return (
         <div className="update-recipe d-flex flex-column justify-content-center">
-            <a href="/recipes" className="text-start">Back To DashBoard</a>
+            
+            <a href="/" className="text-start">Back To Dashboard</a>
+            {/* In case login-register is implemented */}
+            {/* <a href="/recipes" className="text-start">Back To Dashboard</a> */}
+
             <form onSubmit={handleUpdate} className="d-flex flex-column justify-content-center align-items-center gap-3">
                 <h1>Update your recipe Here!</h1>
                 <label htmlFor="name" />
@@ -94,12 +100,12 @@ const UpdateRecipe = () => {
                     descriptionError ? <span style={{ color: 'red' }}>{descriptionError}</span> : ''
                 }
                 <label htmlFor="ingredients" />
-                <textarea rows="10" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} value={ingredients}></textarea>
+                <textarea rows="5" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} value={ingredients}></textarea>
                 {
                     ingredientsError ? <span style={{ color: 'red' }}>{ingredientsError}</span> : ''
                 }
                 <label htmlFor="steps" />
-                <textarea rows="10" id="steps"  onChange={(e) => (setCookingSteps(e.target.value))} value={cookingSteps}></textarea>
+                <textarea rows="5" id="steps"  onChange={(e) => (setCookingSteps(e.target.value))} value={cookingSteps}></textarea>
                 {
                     stepsError ? <span style={{ color: 'red' }}>{stepsError}</span> : ''
                 }

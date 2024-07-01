@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { CookiesProvider, useCookies } from 'react-cookie'
-
+import bread from '../images/images.jpg'
 
 const Login = () => {
 
-    const [cookie, setCookie] = useCookies(['user'])
     const navigate = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -48,7 +46,7 @@ const Login = () => {
                     </div>
                 </form>
             </div>
-            <img src="" alt="" width="100" height="100" />
+            <img src={bread} alt="welcome image" width="900" height="900" />
         </div>
     )
 }
