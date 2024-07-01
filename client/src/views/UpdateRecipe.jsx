@@ -12,6 +12,12 @@ const UpdateRecipe = () => {
     const [cookingSteps, setCookingSteps] = useState("");
     const [recipePic, setRecipePic] = useState("");
 
+    //error messages
+    const [nameError, setNameError] = useState("");
+    const [descriptionError, setDescriptionError] = useState("");
+    const [ingredientsError, setIngredientsError] = useState("");
+    const [stepsError, setStepsError] = useState("");
+
     useEffect(() => {
         axios.get(`http://localhost:8080/recipes/${id}`)
             .then(res => {
@@ -30,25 +36,46 @@ const UpdateRecipe = () => {
     const handleUpdate = (e) => {
         e.preventDefault();
 
+
+        //clear error states
+        setNameError("")
+        setDescriptionError("")
+        setIngredientsError("")
+        setStepsError("")
+
         const recipeData = new FormData()
         recipeData.append('recipeName', recipeName)
         recipeData.append('description', description)
         recipeData.append('ingredients', ingredients)
         recipeData.append('cookingSteps', cookingSteps)
-        recipeData.append('recipePic', recipePic)
+        recipeData.append('recipePic', new Blob([recipePic], { type: 'application/octet-stream' }));
 
-        axios.put(`http://localhost:8080/recipes/${id}/edit`,
-            recipeData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
-        )
-            .then(res => {
+
+        axios.put(`http://localhost:8080/recipes/${id}/edit`,recipeData)
+        .then(res => {
                 console.log(res.data)
                 navigate("/recipes")
-            }).catch(err => err);
+            }).catch(err => {
+                //load validations into request
+                console.log(err)
+                let validations = err.response.data.errors ? err.response.data.errors : null;
+                if (validations) {
+                    validations.forEach(error => {
+                        if (error.includes('name')) {
+                            setNameError(error)
+                        }
+                        if (error.includes('describe')) {
+                            setDescriptionError(error)
+                        }
+                        if (error.includes('ingredients')) {
+                            setIngredientsError(error)
+                        }
+                        if (error.includes('steps')) {
+                            setStepsError(error)
+                        }
+                    })
+                }
+            });
     }
 
     return (
@@ -58,12 +85,24 @@ const UpdateRecipe = () => {
                 <h1>Update your recipe Here!</h1>
                 <label htmlFor="name" />
                 <input type="text" id="name" onChange={(e) => (setRecipeName(e.target.value))} value={recipeName}></input>
+                {
+                    nameError ? <span style={{ color: 'red' }}>{nameError}</span> : ''
+                }
                 <label htmlFor="description" />
-                <input type="text" id="description" onChange={(e) => (setDescription(e.target.value))} value={description}></input>
+                <textarea rows="5"  id="description" onChange={(e) => (setDescription(e.target.value))} value={description}></textarea>
+                {
+                    descriptionError ? <span style={{ color: 'red' }}>{descriptionError}</span> : ''
+                }
                 <label htmlFor="ingredients" />
-                <input type="text" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} value={ingredients}></input>
+                <textarea rows="10" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} value={ingredients}></textarea>
+                {
+                    ingredientsError ? <span style={{ color: 'red' }}>{ingredientsError}</span> : ''
+                }
                 <label htmlFor="steps" />
-                <input type="text" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} value={cookingSteps}></input>
+                <textarea rows="10" id="steps"  onChange={(e) => (setCookingSteps(e.target.value))} value={cookingSteps}></textarea>
+                {
+                    stepsError ? <span style={{ color: 'red' }}>{stepsError}</span> : ''
+                }
                 <input type="file" id="pic" onChange={(e) => {
                     setRecipePic(e.target.files[0])
                 }} placeholder="Upload" />

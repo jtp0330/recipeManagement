@@ -29,7 +29,7 @@ const RecipeDetails = () => {
                         <img src={edit} alt="edit me" onClick={() => { navigate(`/recipes/${id}/edit`) }} />
                         <img src={rmv} alt="delete me" width="25" height="25" onClick={() => { navigate(`/recipes/${id}/delete`) }} />
                     </div>
-                    <p className="fs-3 text-start">Uploaded By User's FirstName</p>
+                    <p className="fs-3 text-start">Uploaded By User FirstName</p>
                     <div className="d-flex flex-row gap-5">
                         <div>
                             <h3>Ingredients</h3>

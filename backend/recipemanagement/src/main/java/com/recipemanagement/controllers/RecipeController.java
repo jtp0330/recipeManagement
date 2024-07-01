@@ -81,11 +81,11 @@ public class RecipeController {
 	@CrossOrigin(origins = "http://localhost:5173")
 	@PutMapping("/recipes/{id}/edit")
 	public ResponseEntity<?> editRecipe(@Valid @PathVariable("id") String id,
-			@Valid @RequestPart String recipeName,
-			@Valid @RequestPart String description,
-			@Valid @RequestPart String ingredients,
-			@Valid @RequestPart String cookingSteps,
-			@Valid @RequestPart MultipartFile recipePic) throws IOException {
+			@Valid @RequestParam("recipeName") String recipeName,
+			@Valid @RequestParam("description") String description,
+			@Valid @RequestParam("ingredients") String ingredients,
+			@Valid @RequestParam("cookingSteps") String cookingSteps,
+			@Valid @RequestParam("recipePic") MultipartFile recipePic) throws IOException {
 
 		// edit current recipe
 		Recipe recipe = new Recipe(id, recipeName, description, ingredients, cookingSteps,

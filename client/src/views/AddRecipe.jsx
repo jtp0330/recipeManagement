@@ -24,8 +24,12 @@ const AddRecipe = () => {
     const handleAdd = (e) => {
         e.preventDefault()
 
-        //convert image into base64 string
-        console.log(recipePic)
+        //clear error states
+        setNameError("")
+        setDescriptionError("")
+        setIngredientsError("")
+        setStepsError("")
+
         const recipeData = new FormData()
         recipeData.append('recipeName', recipeName);
         recipeData.append('description',description);
@@ -35,15 +39,8 @@ const AddRecipe = () => {
 
         console.log(recipeData)
 
-        axios.post('http://localhost:8080/recipes/add',
-            recipeData
-            //     , {
-            //     headers: {
-            //         Accept: "application/json",
-            //         'Content-Type': 'application/json'
-            //     }
-            // }
-        ).then(resp => {
+        axios.post('http://localhost:8080/recipes/add',recipeData)
+        .then(resp => {
             console.log(resp)
             console.log("data request sent!")
             navigate("/recipes")
@@ -82,12 +79,12 @@ const AddRecipe = () => {
                     nameError ? <span style={{ color: 'red' }}>{nameError}</span> : ''
                 }
                 <label htmlFor="description" />
-                <input type="text" id="description" onChange={(e) => (setDescription(e.target.value))} placeholder="Description"></input>
+                <textarea rows="5" id="description" onChange={(e) => (setDescription(e.target.value))} placeholder="Description"></textarea>
                 {
                     descriptionError ? <span style={{ color: 'red' }}>{descriptionError}</span> : ''
                 }
                 <label htmlFor="ingredients" />
-                <input type="text" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></input>
+                <textarea rows="10" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></textarea>
                 {
                     ingredientsError ? <span style={{ color: 'red' }}>{ingredientsError}</span> : ''
                 }
@@ -97,9 +94,7 @@ const AddRecipe = () => {
                     stepsError ? <span style={{ color: 'red' }}>{stepsError}</span> : ''
                 }
                 <label htmlFor="pic" />
-                <input type="file" id="pic" onChange={(e) => {
-                    setRecipePic(e.target.files[0])
-                }} placeholder="Upload" />
+                <input type="file" id="pic" onChange={(e) => {setRecipePic(e.target.files[0])}} placeholder="Upload" />
                 <input type="submit" value="Add Recipe"></input>
             </form>
         </div >

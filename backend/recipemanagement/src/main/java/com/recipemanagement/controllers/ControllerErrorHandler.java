@@ -60,11 +60,11 @@ public class ControllerErrorHandler {
 	// HttpStatus.BAD_REQUEST);
 	// }
 
-	// @ExceptionHandler(MissingServletRequestParameterException.class)
-	// public ResponseEntity<?> handleRequestParameterValidationErrors(
-	// MissingServletRequestParameterException ex) {
-	// return new ResponseEntity<>(ex.getDetailMessageCode(), ex.getStatusCode());
-	// }
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	public ResponseEntity<?> handleRequestParameterValidationErrors(
+			MissingServletRequestParameterException ex) {
+		return new ResponseEntity<>(ex.getDetailMessageCode(), ex.getStatusCode());
+	}
 
 	// customized to handle requests to display validations based on request
 	@ExceptionHandler(ConstraintViolationException.class)
