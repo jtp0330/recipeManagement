@@ -21,7 +21,9 @@ const RecipeDetails = () => {
 
     return (
         <div className="recipe d-flex flex-column gap-5">
-            <a href="/recipes" className="text-start">Back To DashBoard</a>
+            <a href="/" className="text-start">Back To Dashboard</a>
+            {/* In case login-register is implemented */}
+            {/* <a href="/recipes" className="text-start">Back To Dashboard</a> */}
             <div className="d-flex flex-row gap-5 justify-content-center">
                 <div className="container-left">
                     <div className="recipeNames d-flex flex-row align-items-center gap-3">
@@ -29,7 +31,7 @@ const RecipeDetails = () => {
                         <img src={edit} alt="edit me" onClick={() => { navigate(`/recipes/${id}/edit`) }} />
                         <img src={rmv} alt="delete me" width="25" height="25" onClick={() => { navigate(`/recipes/${id}/delete`) }} />
                     </div>
-                    <p className="fs-3 text-start">Uploaded By User's FirstName</p>
+                    {/* <p className="fs-3 text-start">Uploaded By User FirstName</p> */}
                     <div className="d-flex flex-row gap-5">
                         <div>
                             <h3>Ingredients</h3>

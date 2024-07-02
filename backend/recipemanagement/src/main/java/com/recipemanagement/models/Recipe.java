@@ -1,6 +1,5 @@
 package com.recipemanagement.models;
 
-import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -8,10 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.mongodb.lang.NonNull;
-
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "recipes")
 public class Recipe {
@@ -31,9 +27,8 @@ public class Recipe {
 	@NotEmpty(message = "recipe must have steps!")
 	@Field("cookingSteps")
 	private String cookingSteps;
-	@NotEmpty(message = "please upload a picture of your recipe!")
 	@Field("recipePicture")
-	private String recipePic;
+	private Binary recipePic;
 	// reference back to User One To Many
 	@Field("user")
 	@DocumentReference(lazy = true)
@@ -52,9 +47,20 @@ public class Recipe {
 	}
 
 	public Recipe(String id, String recipeName, String description, String ingredients, String cookingSteps,
-			String recipePic) {
+			Binary recipePic) {
 
 		this.id = id;
+		this.recipeName = recipeName;
+		this.description = description;
+		this.ingredients = ingredients;
+		this.cookingSteps = cookingSteps;
+		this.recipePic = recipePic;
+	}
+
+	// overloaded constructor required for post request
+	public Recipe(String recipeName, String description, String ingredients,
+			String cookingSteps,
+			Binary recipePic) {
 		this.recipeName = recipeName;
 		this.description = description;
 		this.ingredients = ingredients;
@@ -102,11 +108,11 @@ public class Recipe {
 		this.cookingSteps = cookingSteps;
 	}
 
-	public String getRecipePic() {
+	public Binary getRecipePic() {
 		return recipePic;
 	}
 
-	public void setRecipePic(String recipePic) {
+	public void setRecipePic(Binary recipePic) {
 		this.recipePic = recipePic;
 	}
 

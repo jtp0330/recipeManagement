@@ -16,36 +16,38 @@ const AddRecipe = () => {
     const [stepsError, setStepsError] = useState("");
 
 
-    const ToBase64 = (image) => {
-        const image_blob = response.blob()
-        const image_json = JSON.stringify(image);
-        return btoa(image_json);
-    }
+    // const ToBase64 = (image) => {
+    //     const image_blob = response.blob()
+    //     const image_json = JSON.stringify(image);
+    //     return btoa(image_json);
+    // }
     const handleAdd = (e) => {
         e.preventDefault()
 
-        //convert image into base64 string
-        console.log(recipePic)
+        //clear error states
+        setNameError("")
+        setDescriptionError("")
+        setIngredientsError("")
+        setStepsError("")
+
         const recipeData = new FormData()
-        recipeData.append('recipeName', recipeName)
-        recipeData.append('description', description)
-        recipeData.append('ingredients', ingredients)
-        recipeData.append('cookingSteps', cookingSteps)
-        recipeData.append('recipePic', recipePic)
+        recipeData.append('recipeName', recipeName);
+        recipeData.append('description',description);
+        recipeData.append('ingredients',ingredients);
+        recipeData.append('cookingSteps',cookingSteps);
+        recipeData.append('recipePic', new Blob([recipePic], { type: 'application/octet-stream' }));
+
         console.log(recipeData)
 
-        axios.post('http://localhost:8080/recipes/add',
-            recipeData
-            //     , {
-            //     headers: {
-            //         Accept: "application/json",
-            //         'Content-Type': 'application/json'
-            //     }
-            // }
-        ).then(resp => {
+        axios.post('http://localhost:8080/recipes/add',recipeData)
+        .then(resp => {
+            console.log(resp)
             console.log("data request sent!")
-            navigate("/recipes")
+            navigate("/")
+            // navigate("/recipes")
+
         }).catch(err => {
+            //load validations into request
             console.log(err)
             let validations = err.response.data.errors ? err.response.data.errors : null;
             if (validations) {
@@ -70,7 +72,10 @@ const AddRecipe = () => {
     }
     return (
         <div className="add-recipe d-flex flex-column justify-content-center">
-            <a href="/recipes" className="text-start">Back To DashBoard</a>
+            <a href="/" className="text-start">Back To Dashboard</a>
+            {/* In case login-register is implemented */}
+            {/* <a href="/recipes" className="text-start">Back To Dashboard</a> */}
+
             <form onSubmit={handleAdd} className="d-flex flex-column justify-content-center align-items-center gap-3">
                 <h1>Add your recipe Here!</h1>
                 <label htmlFor="name" />
@@ -79,24 +84,22 @@ const AddRecipe = () => {
                     nameError ? <span style={{ color: 'red' }}>{nameError}</span> : ''
                 }
                 <label htmlFor="description" />
-                <input type="text" id="description" onChange={(e) => (setDescription(e.target.value))} placeholder="Description"></input>
+                <textarea rows="5" id="description" onChange={(e) => (setDescription(e.target.value))} placeholder="Description"></textarea>
                 {
                     descriptionError ? <span style={{ color: 'red' }}>{descriptionError}</span> : ''
                 }
                 <label htmlFor="ingredients" />
-                <input type="text" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></input>
+                <textarea rows="5" id="ingredients" onChange={(e) => (setIngredients(e.target.value))} placeholder="Ingredients"></textarea>
                 {
                     ingredientsError ? <span style={{ color: 'red' }}>{ingredientsError}</span> : ''
                 }
                 <label htmlFor="steps" />
-                <input type="text" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} placeholder="Cooking Steps"></input>
+                <textarea rows="5" id="steps" onChange={(e) => (setCookingSteps(e.target.value))} placeholder="Cooking Steps"></textarea>
                 {
                     stepsError ? <span style={{ color: 'red' }}>{stepsError}</span> : ''
                 }
                 <label htmlFor="pic" />
-                <input type="file" id="pic" onChange={(e) => {
-                    setRecipePic(ToBase64(e.target.files[0]))
-                }} placeholder="Upload" />
+                <input type="file" id="pic" onChange={(e) => {setRecipePic(e.target.files[0])}} placeholder="Upload" />
                 <input type="submit" value="Add Recipe"></input>
             </form>
         </div >

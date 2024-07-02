@@ -22,7 +22,8 @@ const Home = () => {
                 <h1 className="fs-1">Get Cooking!</h1>
                 <div className="d-flex flex-column gap-1 text-end">
                     <a href="/recipes/add">Add Recipe</a>
-                    <a href="/">Logout</a>
+                    {/* When Login/Logout implemented */}
+                    {/* <a href="/">Logout</a> */}
 
                 </div>
             </div>
